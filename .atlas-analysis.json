@@ -1,0 +1,75 @@
+{
+  "projectType": "saas",
+  "projectName": "Underground Fleet",
+  "projectDescription": "A vehicle reservation web application that allows users to browse a vehicle catalog, create and manage reservations, and perform online check-in.",
+  "theme": "almond",
+  "primaryColor": "#f1d262",
+  "lightColor": "#7c6c34",
+  "darkColor": "#19160b",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": ["introduction", "getting-started/quickstart"]
+          },
+          {
+            "group": "Core Features",
+            "pages": [
+              "features/vehicle-catalog",
+              "features/reservations",
+              "features/checkin"
+            ]
+          },
+          {
+            "group": "Authentication",
+            "pages": [
+              "auth/overview",
+              "auth/login",
+              "auth/register"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/api-setup",
+              "configuration/environment"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Endpoints",
+            "pages": [
+              "api/overview",
+              "api/auth",
+              "api/vehicles",
+              "api/reservations"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Vehicle catalog browsing with detailed cards (name, type, price per day)",
+    "Reservation creation with pickup/dropoff location and dates",
+    "User authentication with JWT token-based sessions",
+    "My Reservations dashboard with status tracking and cancellation",
+    "Online check-in using reservation code (IRN), last name, and pickup date",
+    "Discount code support during booking",
+    "Different dropoff location option"
+  ],
+  "publicApiSurface": [
+    "POST /auth/login — Authenticate user and receive JWT token",
+    "POST /auth/register — Register a new user account",
+    "GET /vehicles — Retrieve the full vehicle catalog",
+    "POST /reservations — Create a new vehicle reservation",
+    "GET /reservations/mine — Retrieve current user's reservations"
+  ]
+}
