@@ -1,0 +1,46 @@
+---
+title: 'Vehicles endpoints'
+description: 'Browse the Underground Fleet vehicle catalog. This endpoint is public and does not require authentication.'
+---
+
+## GET /vehicles
+
+Returns an array of all vehicles available in the catalog. This is a public endpoint — no `Authorization` header is needed.
+
+### Response
+
+An array of vehicle objects.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the vehicle.
+</ResponseField>
+
+<ResponseField name="name" type="string">
+  Display name of the vehicle.
+</ResponseField>
+
+<ResponseField name="price" type="number">
+  Rental price per day.
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Vehicle category (e.g. `SUV`, `Sedan`, `Truck`).
+</ResponseField>
+
+### Example
+
+```bash
+curl --request GET \
+  --url http://localhost:8080/vehicles
+```
+
+```json
+[
+  {
+    "id": "v_001",
+    "name": "Ford Explorer",
+    "price": 89.99,
+    "type": "SUV"
+  }
+]
+```

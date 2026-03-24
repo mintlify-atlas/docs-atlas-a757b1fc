@@ -1,0 +1,64 @@
+---
+title: "Introduction"
+description: "Underground Fleet is a web-based vehicle reservation platform. Browse vehicles, make reservations, and check in online."
+---
+
+Underground Fleet is a React-based vehicle reservation SaaS application. It lets users browse a catalog of available vehicles, create and manage reservations, and complete online check-in — all from a browser.
+
+The frontend connects to a REST API backend running at `http://localhost:8080`. Authentication uses JWT tokens stored in `localStorage`.
+
+## What you can do
+
+<Columns cols={2}>
+  <Card title="Browse vehicles" icon="car" href="/features/vehicle-catalog">
+    View the full catalog of available vehicles with pricing and type details.
+  </Card>
+  <Card title="Make a reservation" icon="calendar-plus" href="/features/reservations">
+    Select a vehicle, choose pickup and dropoff dates, and confirm your booking.
+  </Card>
+  <Card title="Manage reservations" icon="calendar" href="/features/reservations">
+    View your active reservations and cancel bookings you no longer need.
+  </Card>
+  <Card title="Online check-in" icon="circle-check" href="/features/checkin">
+    Complete check-in before pickup using your last name, reservation code, and pickup date.
+  </Card>
+</Columns>
+
+## Key features
+
+- **Vehicle catalog** — GET `/vehicles` returns a list of vehicles rendered as cards. No authentication required to browse.
+- **Reservations** — POST `/reservations` creates a booking. GET `/reservations/mine` returns your personal reservation list. This route is protected and requires a valid JWT.
+- **Online check-in** — Submit your last name, IRN reservation code, and pickup date via the `/checkin` page.
+- **JWT authentication** — Register at `/register` or sign in at `/login`. The token is stored in `localStorage` and sent as a bearer token on all API requests.
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Framework | React 19 + Vite |
+| Routing | React Router v7 |
+| HTTP client | Axios |
+| UI | Bootstrap 5 + Bootstrap Icons |
+| Auth | JWT (bearer token, `localStorage`) |
+| Backend API | REST, `http://localhost:8080` |
+
+## Architecture
+
+The frontend is a single-page application built with Vite. It communicates exclusively with a REST API at `http://localhost:8080`. The Axios client in `src/api/axiosConfig.js` attaches the JWT bearer token from `localStorage` to every request automatically.
+
+Protected routes (such as `/reservations`) use a `PrivateRoute` component that redirects unauthenticated users to `/login`.
+
+<Note>
+  You must have the backend API running at `http://localhost:8080` before the frontend can authenticate users, load vehicles, or process reservations.
+</Note>
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/getting-started/quickstart">
+    Clone the repo, install dependencies, and make your first reservation.
+  </Card>
+  <Card title="Authentication" icon="lock" href="/auth/overview">
+    Learn how registration, login, and JWT-based auth work.
+  </Card>
+</Columns>

@@ -1,0 +1,44 @@
+---
+title: 'Vehicle catalog'
+description: 'Browse available vehicles and create a reservation directly from the catalog.'
+---
+
+The vehicle catalog displays all available vehicles fetched from the backend. You can browse vehicles without logging in, but you must be authenticated to make a reservation.
+
+<Note>
+  The catalog is loaded via `GET /vehicles`. This endpoint is publicly accessible — no login is required to browse.
+</Note>
+
+## What the catalog shows
+
+Each vehicle card displays the following fields:
+
+| Field   | Description              |
+| ------- | ------------------------ |
+| `name`  | The vehicle's name       |
+| `type`  | The vehicle category     |
+| `price` | The daily rental price   |
+
+## Grid layout
+
+Vehicles are displayed in a 3-column grid. Each column contains one vehicle card. The layout adapts based on the number of vehicles returned by the API.
+
+## Reserving a vehicle
+
+Each vehicle card includes a **Reservar** button. When you click it, the app sends a `POST /reservations` request with the following payload:
+
+```json
+{
+  "vehicleId": "<vehicle id>",
+  "startDate": "<today's date>",
+  "endDate": "<tomorrow's date>"
+}
+```
+
+<Warning>
+  You must be logged in to use **Reservar**. The request requires a valid JWT token. If you are not authenticated, the reservation will fail.
+</Warning>
+
+<Tip>
+  After a reservation is successfully created, you are automatically redirected to `/reservations` where you can view and manage it.
+</Tip>

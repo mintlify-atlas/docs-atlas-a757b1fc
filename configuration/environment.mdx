@@ -1,0 +1,57 @@
+---
+title: 'Environment configuration'
+description: 'Setting up environment variables and build configuration for Underground Fleet'
+---
+
+Underground Fleet uses [Vite](https://vite.dev) as its build tool. Vite has built-in support for `.env` files and exposes environment variables to the browser bundle via the `import.meta.env` object.
+
+## Environment variables
+
+Vite loads variables from `.env` files in the project root. To make a variable accessible in client-side code, its name **must** start with the `VITE_` prefix.
+
+<Warning>
+  Variables without the `VITE_` prefix are not exposed to the browser bundle. They remain server-side only and will be `undefined` at runtime in the browser.
+</Warning>
+
+### Setting up `.env.local`
+
+Create a `.env.local` file in the project root to configure your local environment:
+
+```bash .env.local
+VITE_API_BASE_URL=http://localhost:8080
+```
+
+<Note>
+  `.env.local` is gitignored by default in Vite projects, making it safe to store local secrets and credentials without committing them to version control.
+</Note>
+
+### Using environment variables in code
+
+Once defined, use `import.meta.env.VITE_API_BASE_URL` to read the variable. Update `src/api/axiosConfig.js` to use the environment variable with a fallback:
+
+```js src/api/axiosConfig.js
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080",
+});
+```
+
+This approach lets you override the API URL per environment without editing source files.
+
+## Available scripts
+
+The following scripts are defined in `package.json`:
+
+| Script | Command | Description |
+|---|---|---|
+| Development server | `npm run dev` | Starts the Vite dev server at `http://localhost:5173` with hot module replacement |
+| Production build | `npm run build` | Compiles and bundles the app for production, outputting to the `dist/` folder |
+| Preview build | `npm run preview` | Serves the production build locally for testing before deployment |
+| Lint | `npm run lint` | Runs ESLint to check code quality across the project |
+
+## Production build output
+
+Running `npm run build` generates a `dist/` folder containing the compiled, minified application. This folder can be served by any static file server or CDN — no Node.js runtime is required.
+
+<Tip>
+  Use `npm run preview` to test the production build locally before deploying. This serves the contents of `dist/` and lets you catch any build-specific issues that would not appear in the dev server.
+</Tip>

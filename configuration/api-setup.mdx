@@ -1,0 +1,84 @@
+---
+title: 'API setup'
+description: 'Configuring the backend API connection for Underground Fleet'
+---
+
+All API calls in Underground Fleet are routed through a single, centralized Axios instance defined in `src/api/axiosConfig.js`. This makes it easy to manage authentication, base URLs, and request behavior in one place.
+
+## The Axios instance
+
+The API client is configured as follows:
+
+```js src/api/axiosConfig.js
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "http://localhost:8080",
+});
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+export default api;
+```
+
+### Base URL
+
+The `baseURL` is set to `http://localhost:8080` by default. Every relative path used in API calls resolves against this URL. This value must point to your running backend server.
+
+To change it, edit the `baseURL` field in `src/api/axiosConfig.js`.
+
+### Request interceptor
+
+Before every outgoing request, the interceptor reads the `token` key from `localStorage`. If a token exists, it attaches an `Authorization: Bearer <token>` header automatically. This means you do not need to manually add auth headers in individual components or service files.
+
+## Changing the API URL
+
+Update `baseURL` in `src/api/axiosConfig.js` to match your backend for each environment:
+
+<CodeGroup>
+
+```js local
+const api = axios.create({
+  baseURL: "http://localhost:8080",
+});
+```
+
+```js staging
+const api = axios.create({
+  baseURL: "https://staging-api.undergroundfleet.com",
+});
+```
+
+```js production
+const api = axios.create({
+  baseURL: "https://api.undergroundfleet.com",
+});
+```
+
+</CodeGroup>
+
+<Tip>
+  For production deployments, avoid hardcoding the URL. Use a Vite environment variable instead:
+
+  ```js src/api/axiosConfig.js
+  const api = axios.create({
+    baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8080",
+  });
+  ```
+
+  See [Environment configuration](/configuration/environment) for details on setting up `.env` files.
+</Tip>
+
+## Singleton behavior
+
+The `api` instance is exported as a default export and imported by any component that needs to make a request. Because JavaScript modules are cached after the first import, all components share the same instance — interceptors and base URL configuration apply universally.
+
+<Warning>
+  All API-dependent features — including the vehicle catalog, reservations, and authentication — require a running backend at the configured `baseURL`. The frontend will not function correctly if the backend is unreachable.
+</Warning>

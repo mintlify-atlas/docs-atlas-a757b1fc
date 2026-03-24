@@ -1,0 +1,66 @@
+---
+title: 'Sign in'
+description: Signing into your Underground Fleet account.
+---
+
+Sign in to access your vehicle reservations and account features.
+
+## How to sign in
+
+<Steps>
+  <Step title="Navigate to the sign-in page">
+    Open your browser and go to `/login`.
+  </Step>
+  <Step title="Enter your username">
+    Type your **Username** into the username field.
+  </Step>
+  <Step title="Enter your password">
+    Type your **Password** into the password field.
+  </Step>
+  <Step title="Submit the form">
+    Click **Ingresar** to submit your credentials.
+  </Step>
+  <Step title="You are redirected to the vehicles page">
+    On success, your session token is saved and you are taken to `/vehicles`.
+  </Step>
+</Steps>
+
+## What happens on success
+
+When your credentials are accepted:
+
+- The backend returns `{ token: "<jwt>" }`.
+- The token is stored in `localStorage` under the key `"token"`.
+- You are redirected to `/vehicles`.
+- All subsequent API requests automatically include `Authorization: Bearer <token>`.
+
+## What happens on failure
+
+If your credentials are incorrect or the request fails, an error alert is shown. Your stored token is not affected. Try signing in again with the correct credentials.
+
+## API reference
+
+**Endpoint:** `POST /auth/login`
+
+**Request body:**
+
+```json
+{
+  "username": "your_username",
+  "password": "your_password"
+}
+```
+
+**Success response:**
+
+```json
+{
+  "token": "<jwt>"
+}
+```
+
+<Tip>
+  After signing in, your token is automatically included in all API requests made through the app. You do not need to attach it manually.
+</Tip>
+
+Don't have an account yet? [Create one here.](/auth/register)

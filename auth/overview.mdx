@@ -1,0 +1,65 @@
+---
+title: 'Authentication overview'
+description: How Underground Fleet handles user authentication.
+---
+
+Underground Fleet uses JWT (JSON Web Token) based authentication. When you sign in or register, the backend issues a token that your browser stores and automatically includes in every subsequent API request.
+
+## Auth flow
+
+Here is the end-to-end flow from registration or login through to protected access:
+
+1. **You register or sign in** — your credentials are sent to the backend.
+2. **The backend returns a JWT** — on success, the response contains `{ token: "<jwt>" }`.
+3. **The token is saved to `localStorage`** — stored under the key `"token"` so it persists across browser sessions.
+4. **Every API request includes the token automatically** — an Axios request interceptor reads `"token"` from `localStorage` and attaches it as an `Authorization: Bearer <token>` header.
+5. **When you sign out** — the token is cleared from both `localStorage` and application state.
+
+## AuthContext
+
+`AuthContext` is a React context that makes authentication state available to every component in the app. It exposes three values:
+
+| Value | Type | Description |
+|---|---|---|
+| `token` | `string \| null` | The current JWT, or `null` if signed out. |
+| `login(newToken)` | function | Saves the new token to state and `localStorage`. |
+| `logout()` | function | Clears the token from state and `localStorage`. |
+
+To consume the context in a component, use the `useAuth` hook, which returns `{ token, login, logout }`.
+
+## Protected routes
+
+`PrivateRoute` wraps routes that require authentication. If no token is present in state, the user is redirected to `/login` before the page renders.
+
+The `/reservations` route is protected by `PrivateRoute`. All other routes are publicly accessible.
+
+## Axios interceptor
+
+The `axiosConfig.js` module creates an Axios instance with `baseURL` set to `http://localhost:8080`. A request interceptor runs before every API call:
+
+```javascript axiosConfig.js
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+```
+
+You do not need to manually attach the token to individual requests — the interceptor handles it for every call made through the shared `api` instance.
+
+<Note>
+  JWTs stored in `localStorage` are accessible to any JavaScript running on the page. Be aware of XSS risks in your deployment environment. Consider your threat model and applicable security policies when moving to production.
+</Note>
+
+## Next steps
+
+<Columns cols={2}>
+  <Card title="Sign in" icon="log-in" href="/auth/login">
+    Sign in to an existing Underground Fleet account.
+  </Card>
+  <Card title="Create an account" icon="user-plus" href="/auth/register">
+    Register a new Underground Fleet account.
+  </Card>
+</Columns>

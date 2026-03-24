@@ -1,0 +1,86 @@
+---
+title: 'Authentication endpoints'
+description: 'Endpoints for logging in and registering a new Underground Fleet account.'
+---
+
+Use these endpoints to authenticate users and create new accounts. Both endpoints are public — no token is required.
+
+---
+
+## POST /auth/login
+
+Authenticate with a username and password. Returns a JWT token you use to access protected endpoints.
+
+### Request body
+
+<ParamField path="body.username" type="string" required>
+  The account username.
+</ParamField>
+
+<ParamField path="body.password" type="string" required>
+  The account password.
+</ParamField>
+
+### Response
+
+<ResponseField name="token" type="string">
+  A signed JWT token. Include this value in the `Authorization: Bearer <token>` header for all protected requests.
+</ResponseField>
+
+### Example
+
+```bash
+curl --request POST \
+  --url http://localhost:8080/auth/login \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "username": "jsmith",
+    "password": "secret123"
+  }'
+```
+
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+<Tip>
+  Store the returned token in `localStorage` so the frontend can attach it automatically to subsequent requests.
+</Tip>
+
+---
+
+## POST /auth/register
+
+Create a new user account. After registration, call `POST /auth/login` to obtain a token.
+
+### Request body
+
+<ParamField path="body.username" type="string" required>
+  The desired username for the new account.
+</ParamField>
+
+<ParamField path="body.password" type="string" required>
+  The password for the new account.
+</ParamField>
+
+### Response
+
+A `2xx` response indicates the account was created successfully. The response body may vary depending on the server implementation.
+
+### Example
+
+```bash
+curl --request POST \
+  --url http://localhost:8080/auth/register \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "username": "jsmith",
+    "password": "secret123"
+  }'
+```
+
+<Note>
+  Registration does not return a token. After a successful registration, call `POST /auth/login` with the same credentials to authenticate.
+</Note>

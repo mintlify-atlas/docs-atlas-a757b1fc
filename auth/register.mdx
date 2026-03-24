@@ -1,0 +1,37 @@
+---
+title: 'Create an account'
+description: Registering a new Underground Fleet account.
+---
+
+Create an Underground Fleet account to start making vehicle reservations.
+
+## How to register
+
+<Steps>
+  <Step title="Navigate to the registration page">
+    Open your browser and go to `/register`.
+  </Step>
+  <Step title="Fill in your registration details">
+    Complete all required fields in the registration form.
+  </Step>
+  <Step title="Submit the form">
+    Submit the form to create your account.
+  </Step>
+  <Step title="Sign in to access your account">
+    After registration, go to `/login` and sign in to obtain your session token and access your reservations.
+  </Step>
+</Steps>
+
+<Note>
+  Registration does not sign you in automatically. You must sign in separately after creating your account to receive a session token.
+</Note>
+
+## API reference
+
+**Endpoint:** `POST /auth/register`
+
+Submit your registration details in the request body. On success, your account is created and you can sign in immediately.
+
+## Next step
+
+Once your account is created, [sign in](/auth/login) to start using Underground Fleet.

@@ -1,0 +1,106 @@
+---
+title: 'Reservations endpoints'
+description: 'Create and retrieve vehicle reservations. All endpoints require a valid Bearer token.'
+---
+
+All reservation endpoints require authentication. Include your JWT token in every request:
+
+```
+Authorization: Bearer <token>
+```
+
+---
+
+## GET /reservations/mine
+
+Returns all reservations belonging to the currently authenticated user.
+
+### Response
+
+An array of reservation objects.
+
+<ResponseField name="id" type="string">
+  Unique identifier for the reservation.
+</ResponseField>
+
+<ResponseField name="vehicleName" type="string">
+  Display name of the reserved vehicle.
+</ResponseField>
+
+<ResponseField name="startDate" type="string">
+  Reservation start date in ISO 8601 format (e.g. `2026-04-01`).
+</ResponseField>
+
+<ResponseField name="endDate" type="string">
+  Reservation end date in ISO 8601 format (e.g. `2026-04-05`).
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Current status of the reservation (e.g. `active`, `completed`, `cancelled`).
+</ResponseField>
+
+### Example
+
+```bash
+curl --request GET \
+  --url http://localhost:8080/reservations/mine \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+```
+
+```json
+[
+  {
+    "id": "r_101",
+    "vehicleName": "Ford Explorer",
+    "startDate": "2026-04-01",
+    "endDate": "2026-04-05",
+    "status": "active"
+  }
+]
+```
+
+---
+
+## POST /reservations
+
+Create a new vehicle reservation for the authenticated user.
+
+<Warning>
+  You must be authenticated to create a reservation. Requests without a valid `Authorization` header will be rejected.
+</Warning>
+
+### Request body
+
+<ParamField path="body.vehicleId" type="string" required>
+  The ID of the vehicle to reserve. Obtain vehicle IDs from `GET /vehicles`.
+</ParamField>
+
+<ParamField path="body.startDate" type="string" required>
+  The start date of the reservation. Must be in `YYYY-MM-DD` format.
+</ParamField>
+
+<ParamField path="body.endDate" type="string" required>
+  The end date of the reservation. Must be in `YYYY-MM-DD` format.
+</ParamField>
+
+### Response
+
+The created reservation object. Fields match those returned by `GET /reservations/mine`.
+
+### Example
+
+```bash
+curl --request POST \
+  --url http://localhost:8080/reservations \
+  --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "vehicleId": "v_001",
+    "startDate": "2026-04-01",
+    "endDate": "2026-04-05"
+  }'
+```
+
+<Note>
+  After a successful reservation, the Underground Fleet frontend redirects you to `/reservations` to view your bookings.
+</Note>

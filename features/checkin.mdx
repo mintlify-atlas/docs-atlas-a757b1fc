@@ -1,0 +1,42 @@
+---
+title: 'Online check-in'
+description: 'Complete check-in before arriving at the station to save time at pickup.'
+---
+
+The online check-in feature lets you confirm your reservation details from your browser before you arrive at the pickup station. No login is required.
+
+<Note>
+  The `/checkin` page is publicly accessible. You do not need to be logged in to use it.
+</Note>
+
+## How to check in
+
+<Steps>
+  <Step title="Navigate to /checkin">
+    Open the check-in page at `/checkin` in your browser.
+  </Step>
+  <Step title="Enter your last name">
+    Type your last name in the **Apellido** field.
+  </Step>
+  <Step title="Enter your IRN reservation code">
+    Enter your Individual Reservation Number (IRN) in the **Código de reserva (IRN)** field. This is the unique code from your reservation confirmation email (for example, `ABC123456`).
+  </Step>
+  <Step title="Select your pickup date">
+    Choose your pickup date using the **Fecha de retiro** date picker.
+  </Step>
+  <Step title="Click Buscar">
+    Click **Buscar** to submit the form. The app connects to the backend to validate your reservation details.
+  </Step>
+</Steps>
+
+<Tip>
+  Complete check-in up to 24 hours before your scheduled pickup.
+</Tip>
+
+<Tip>
+  Have your driver's license ready to verify your identity when you arrive at the station.
+</Tip>
+
+## What is an IRN?
+
+Your IRN (Individual Reservation Number) is the unique code assigned to your reservation at the time of booking. You can find it in your confirmation email or on the `/reservations` page.

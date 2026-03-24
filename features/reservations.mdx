@@ -1,0 +1,36 @@
+---
+title: 'My reservations'
+description: 'View and manage your active and past reservations.'
+---
+
+The `/reservations` page shows all reservations associated with your account. This page is protected — you must be logged in to access it.
+
+<Warning>
+  `/reservations` is a protected route. If you are not logged in, you cannot access this page.
+</Warning>
+
+## How reservations are loaded
+
+When the page loads, it fetches your reservations from `GET /reservations/mine`. The request includes your JWT token in the `Authorization` header as a Bearer token.
+
+## What each reservation card shows
+
+Each reservation card displays the following fields:
+
+| Field           | Description                        |
+| --------------- | ---------------------------------- |
+| `id`            | Unique reservation number          |
+| `vehicleName`   | Name of the reserved vehicle       |
+| `startDate`     | Reservation start date             |
+| `endDate`       | Reservation end date               |
+| `status`        | Current status of the reservation  |
+
+## Canceling a reservation
+
+Each reservation card includes a **Cancelar Reserva** button. Click it to cancel the corresponding reservation.
+
+## Empty state
+
+<Note>
+  If you have no reservations, the page displays the message: "No tienes reservas registradas."
+</Note>

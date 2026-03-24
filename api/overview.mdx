@@ -1,0 +1,44 @@
+---
+title: 'API overview'
+description: 'Overview of the Underground Fleet REST API — base URL, authentication, and available endpoints.'
+---
+
+The Underground Fleet API is a REST API that powers the vehicle reservation frontend. All requests are made to the base URL below, and responses are returned as JSON.
+
+<Note>
+  The backend server must be running locally at port 8080 before making any API requests.
+</Note>
+
+## Base URL
+
+```
+http://localhost:8080
+```
+
+## Authentication
+
+Protected endpoints require a Bearer token in the `Authorization` header. Obtain a token by calling `POST /auth/login`. Pass the returned token on every subsequent protected request.
+
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+Endpoints that do **not** require authentication are marked as public in the endpoint table below.
+
+<Info>
+  The Underground Fleet frontend stores the token in `localStorage` and attaches it automatically via an Axios request interceptor.
+</Info>
+
+## Endpoints
+
+| Method | Path | Auth required | Description |
+|--------|------|:---:|-------------|
+| `POST` | `/auth/login` | No | Authenticate and receive a JWT token |
+| `POST` | `/auth/register` | No | Create a new user account |
+| `GET` | `/vehicles` | No | List all available vehicles |
+| `GET` | `/reservations/mine` | Yes | Retrieve the current user's reservations |
+| `POST` | `/reservations` | Yes | Create a new reservation |
+
+<Note>
+  This API documentation is inferred from the Underground Fleet frontend source code. Endpoint shapes reflect what the React components send and expect to receive.
+</Note>

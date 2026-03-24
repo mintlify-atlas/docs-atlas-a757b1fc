@@ -1,0 +1,111 @@
+---
+title: "Quickstart"
+description: "Clone the repo, start the dev server, and make your first vehicle reservation."
+---
+
+This guide walks you through the full flow from installation to completing a reservation and online check-in.
+
+<Note>
+  Underground Fleet requires a running backend REST API at `http://localhost:8080`. Start the backend before running the frontend, or authentication and data requests will fail.
+</Note>
+
+<Steps>
+  <Step title="Prerequisites">
+    Before you begin, make sure you have:
+
+    - **Node.js 18 or later** — [nodejs.org](https://nodejs.org)
+    - **A running backend API** at `http://localhost:8080` with endpoints for `/auth/login`, `/auth/register`, `/vehicles`, and `/reservations`
+  </Step>
+
+  <Step title="Clone the repository and install dependencies">
+    Clone the repository and install the required packages.
+
+    <CodeGroup>
+
+    ```bash npm
+    git clone https://github.com/Mambee73/reservas-vehiculos.git
+    cd reservas-vehiculos
+    npm install
+    ```
+
+    </CodeGroup>
+  </Step>
+
+  <Step title="Start the development server">
+    Run the dev server with Vite:
+
+    ```bash
+    npm run dev
+    ```
+
+    Vite starts the app at `http://localhost:5173`. Open that URL in your browser.
+
+    The available scripts are:
+
+    | Script | Command | Description |
+    |---|---|---|
+    | `dev` | `npm run dev` | Start local dev server at `http://localhost:5173` |
+    | `build` | `npm run build` | Compile and bundle for production |
+    | `preview` | `npm run preview` | Preview the production build locally |
+    | `lint` | `npm run lint` | Run ESLint across the codebase |
+  </Step>
+
+  <Step title="Register an account">
+    Navigate to `http://localhost:5173/register` and fill in the registration form. Submitting the form sends a POST request to `/auth/register`.
+
+    Once registered, you are ready to sign in.
+  </Step>
+
+  <Step title="Sign in">
+    Navigate to `http://localhost:5173/login` and enter your credentials. A successful login sends a POST request to `/auth/login`, receives a JWT token, stores it in `localStorage`, and redirects you to `/vehicles`.
+  </Step>
+
+  <Step title="Browse the vehicle catalog">
+    The `/vehicles` page loads automatically after login. It fetches the vehicle list from GET `/vehicles` and displays each vehicle as a card.
+
+    You can also navigate directly to `http://localhost:5173/vehicles` using the **Vehículos** link in the navbar.
+
+    <Tip>
+      The home page at `/` includes a booking form with fields for pickup location, pickup date and time, dropoff date and time, and an optional **discount code**. You can enter a discount code here before browsing vehicles to apply it to your reservation.
+    </Tip>
+  </Step>
+
+  <Step title="Make a reservation">
+    On the `/vehicles` page, click the **Reservar** button on any vehicle card. This sends a POST request to `/reservations` with the `vehicleId`, `startDate`, and `endDate`, then redirects you to `/reservations`.
+  </Step>
+
+  <Step title="View your reservations">
+    Navigate to `http://localhost:5173/reservations` or click **Mis Reservas** in the navbar.
+
+    This page is protected — you must be signed in to access it. It fetches your bookings from GET `/reservations/mine` and displays each one as a card showing the vehicle name, start and end dates, and status. You can cancel any active reservation from this page.
+  </Step>
+
+  <Step title="Complete online check-in">
+    Navigate to `http://localhost:5173/checkin` or click **Check-in** in the navbar.
+
+    Fill in the three required fields:
+
+    - **Last name** — the last name on the reservation
+    - **Reservation code (IRN)** — the unique code from your booking confirmation
+    - **Pickup date** — the date your reservation begins
+
+    Submit the form to complete your check-in before arriving for pickup.
+  </Step>
+</Steps>
+
+## What's next
+
+<Columns cols={2}>
+  <Card title="Vehicle catalog" icon="car" href="/features/vehicle-catalog">
+    Learn how the vehicle catalog works and what data each card displays.
+  </Card>
+  <Card title="Reservations" icon="calendar" href="/features/reservations">
+    Understand the full reservation lifecycle, including cancellation.
+  </Card>
+  <Card title="Online check-in" icon="circle-check" href="/features/checkin">
+    Details on the check-in form and the IRN reservation code.
+  </Card>
+  <Card title="Authentication" icon="lock" href="/auth/overview">
+    How JWT auth works and how the token is managed across requests.
+  </Card>
+</Columns>
