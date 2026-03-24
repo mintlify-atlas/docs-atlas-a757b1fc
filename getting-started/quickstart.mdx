@@ -51,13 +51,17 @@ This guide walks you through the full flow from installation to completing a res
   </Step>
 
   <Step title="Register an account">
-    Navigate to `http://localhost:5173/register` and fill in the registration form. Submitting the form sends a POST request to `/auth/register`.
+    Navigate to `http://localhost:5173/register` and fill in the three fields:
 
-    Once registered, you are ready to sign in.
-  </Step>
+    - **Usuario** — your username
+    - **Correo electrónico** — your email address
+    - **Contraseña** — your password
 
-  <Step title="Sign in">
-    Navigate to `http://localhost:5173/login` and enter your credentials. A successful login sends a POST request to `/auth/login`, receives a JWT token, stores it in `localStorage`, and redirects you to `/vehicles`.
+    Submitting the form sends a `POST /auth/register` request. On success, your JWT token is stored in `localStorage` and you are redirected to `/vehicles` automatically — no separate sign-in step needed.
+
+    <Tip>
+      Already have an account? Navigate to `http://localhost:5173/login` instead and enter your username and password. A successful login sends `POST /auth/login`, receives a JWT, stores it in `localStorage`, and redirects you to `/vehicles`.
+    </Tip>
   </Step>
 
   <Step title="Browse the vehicle catalog">

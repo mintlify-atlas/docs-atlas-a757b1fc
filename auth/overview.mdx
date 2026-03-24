@@ -9,9 +9,9 @@ Underground Fleet uses JWT (JSON Web Token) based authentication. When you sign 
 
 Here is the end-to-end flow from registration or login through to protected access:
 
-1. **You register or sign in** — your credentials are sent to the backend.
-2. **The backend returns a JWT** — on success, the response contains `{ token: "<jwt>" }`.
-3. **The token is saved to `localStorage`** — stored under the key `"token"` so it persists across browser sessions.
+1. **You register or sign in** — your credentials are sent to the backend via `POST /auth/register` or `POST /auth/login`.
+2. **The backend returns a JWT** — on success, both endpoints return `{ token: "<jwt>" }`.
+3. **The token is saved to `localStorage`** — stored under the key `"token"` so it persists across browser sessions. You are then redirected to `/vehicles`.
 4. **Every API request includes the token automatically** — an Axios request interceptor reads `"token"` from `localStorage` and attaches it as an `Authorization: Bearer <token>` header.
 5. **When you sign out** — the token is cleared from both `localStorage` and application state.
 

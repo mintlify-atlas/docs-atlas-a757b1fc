@@ -11,27 +11,46 @@ Create an Underground Fleet account to start making vehicle reservations.
   <Step title="Navigate to the registration page">
     Open your browser and go to `/register`.
   </Step>
-  <Step title="Fill in your registration details">
-    Complete all required fields in the registration form.
+  <Step title="Fill in your details">
+    Complete the three required fields:
+
+    - **Usuario** — your chosen username
+    - **Correo electrónico** — your email address
+    - **Contraseña** — your password
   </Step>
-  <Step title="Submit the form">
-    Submit the form to create your account.
-  </Step>
-  <Step title="Sign in to access your account">
-    After registration, go to `/login` and sign in to obtain your session token and access your reservations.
+  <Step title="Click Registrarse">
+    Submit the form. On success, your account is created, your session token is saved, and you are redirected to `/vehicles`.
   </Step>
 </Steps>
 
 <Note>
-  Registration does not sign you in automatically. You must sign in separately after creating your account to receive a session token.
+  Registration signs you in automatically. Your JWT token is stored in `localStorage` immediately after a successful registration — you do not need to visit `/login` separately.
 </Note>
 
 ## API reference
 
 **Endpoint:** `POST /auth/register`
 
-Submit your registration details in the request body. On success, your account is created and you can sign in immediately.
+**Request body:**
+
+```json
+{
+  "username": "jsmith",
+  "email": "jsmith@example.com",
+  "password": "secret123"
+}
+```
+
+**Success response:**
+
+```json
+{
+  "token": "<jwt>"
+}
+```
+
+On success, the frontend stores the token in `localStorage` and redirects to `/vehicles`.
 
 ## Next step
 
-Once your account is created, [sign in](/auth/login) to start using Underground Fleet.
+Already have an account? [Sign in](/auth/login) instead.

@@ -53,12 +53,16 @@ curl --request POST \
 
 ## POST /auth/register
 
-Create a new user account. After registration, call `POST /auth/login` to obtain a token.
+Create a new user account. On success, returns a JWT token and the user is signed in immediately.
 
 ### Request body
 
 <ParamField path="body.username" type="string" required>
   The desired username for the new account.
+</ParamField>
+
+<ParamField path="body.email" type="string" required>
+  The email address for the new account.
 </ParamField>
 
 <ParamField path="body.password" type="string" required>
@@ -67,7 +71,9 @@ Create a new user account. After registration, call `POST /auth/login` to obtain
 
 ### Response
 
-A `2xx` response indicates the account was created successfully. The response body may vary depending on the server implementation.
+<ResponseField name="token" type="string">
+  A signed JWT token. The frontend stores this in `localStorage` and redirects to `/vehicles` immediately after successful registration.
+</ResponseField>
 
 ### Example
 
@@ -77,10 +83,17 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --data '{
     "username": "jsmith",
+    "email": "jsmith@example.com",
     "password": "secret123"
   }'
 ```
 
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
 <Note>
-  Registration does not return a token. After a successful registration, call `POST /auth/login` with the same credentials to authenticate.
+  Registration returns a token directly. The frontend stores it in `localStorage` and redirects to `/vehicles` — no separate login step is needed.
 </Note>
